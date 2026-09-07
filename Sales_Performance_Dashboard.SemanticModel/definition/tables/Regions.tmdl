@@ -1,0 +1,43 @@
+table Regions
+	lineageTag: 7a763a94-2e48-41d8-8193-7ab5fc3d1ab4
+
+	column Region_ID
+		dataType: string
+		lineageTag: ff9f4810-ffd8-4a16-b34a-8e0fcd5ca0b4
+		summarizeBy: none
+		sourceColumn: Region_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 84ea60b7-655b-49cc-bc76-ef6e6a539701
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Manager
+		dataType: string
+		lineageTag: f1782965-22b5-4e67-b8ac-bd7cb9196d0a
+		summarizeBy: none
+		sourceColumn: Manager
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Regions = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Tripti Sahu\Desktop\P\Sales Performance Dashboard\Sales_Performance_Dashboard_Dataset.xlsx"), null, true),
+				    Regions_Sheet = Source{[Item="Regions",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Regions_Sheet,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Region_ID", type text}, {"Region", type text}, {"Manager", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,20 @@
+relationship AutoDetected_9bce7bd9-b141-4e0a-b177-58fb2f579a06
+	fromColumn: Sales.Product_ID
+	toColumn: Products.Product_ID
+
+relationship AutoDetected_b32e8b7a-bd31-4117-9529-6df19e69c0f1
+	fromColumn: Sales.Customer_ID
+	toColumn: Customers.Customer_ID
+
+relationship AutoDetected_ede7cb8e-dad4-41f9-90b2-d4cd46f593ed
+	fromColumn: Sales.Region_ID
+	toColumn: Regions.Region_ID
+
+relationship AutoDetected_a4dce94f-46bf-4fef-b243-af6dc3c531f8
+	fromColumn: Sales.Salesperson_ID
+	toColumn: Salespersons.Salesperson_ID
+
+relationship 8885a0b4-0629-e432-3e29-483187a9d441
+	fromColumn: Sales.Order_Date
+	toColumn: Date.Date
+

@@ -1,0 +1,69 @@
+table Products
+	lineageTag: 4c2ccf1d-699b-41ff-af0c-23ac79d73cbb
+
+	column Product_ID
+		dataType: string
+		lineageTag: e5e23314-c988-4613-bf27-e9723d8a134b
+		summarizeBy: none
+		sourceColumn: Product_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product_Name
+		dataType: string
+		lineageTag: 91bac5b0-60da-4667-81ab-8b36d190e901
+		summarizeBy: none
+		sourceColumn: Product_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: f2bca4b3-d22b-4437-a56a-391f8fd82877
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subcategory
+		dataType: string
+		lineageTag: 794e3051-be21-41f6-91bf-da09c55899d4
+		summarizeBy: none
+		sourceColumn: Subcategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unit_Price
+		dataType: double
+		formatString: 0
+		lineageTag: 68ba7745-d671-48e9-bfc4-cab6afde1f04
+		summarizeBy: none
+		sourceColumn: Unit_Price
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cost_Per_Unit
+		dataType: double
+		formatString: 0
+		lineageTag: bef31abb-7868-49a5-9d2f-0989a9d89226
+		summarizeBy: none
+		sourceColumn: Cost_Per_Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Products = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Tripti Sahu\Desktop\P\Sales Performance Dashboard\Sales_Performance_Dashboard_Dataset.xlsx"), null, true),
+				    Products_Sheet = Source{[Item="Products",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Products_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Product_ID", type text}, {"Product_Name", type text}, {"Category", type text}, {"Subcategory", type text}, {"Unit_Price", type number}, {"Cost_Per_Unit", type number}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Changed Type", {"Product_ID"})
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

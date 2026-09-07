@@ -1,0 +1,104 @@
+table Date
+	lineageTag: 992d181e-9844-46a5-a042-1317ca3ed1a6
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: 8a044754-79cb-4da5-abfa-a892f8ae63fb
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: f149c1e7-3b53-43a3-9f30-18aecb529108
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month_Number
+		dataType: int64
+		formatString: 0
+		lineageTag: 334a973f-541d-4961-a244-0e615730388d
+		summarizeBy: sum
+		sourceColumn: Month_Number
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 23da948f-c876-4470-b65c-0a8df27e7056
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: Month_Number
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: 70ba881c-b7de-4575-8493-a0a40ce6de47
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year_Month
+		dataType: string
+		lineageTag: 229d2011-4ebc-4fa1-87c8-124051d594c6
+		summarizeBy: none
+		sourceColumn: Year_Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_Number
+		dataType: int64
+		formatString: 0
+		lineageTag: 64866194-255e-445d-b454-99b6566a98c9
+		summarizeBy: sum
+		sourceColumn: Week_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d510cfa-f695-4558-8ec4-9e838af6f588
+		summarizeBy: sum
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day_Name
+		dataType: string
+		lineageTag: 1b60b7be-dca1-4a14-8807-af646f11ba8b
+		summarizeBy: none
+		sourceColumn: Day_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Tripti Sahu\Desktop\P\Sales Performance Dashboard\Sales_Performance_Dashboard_Dataset.xlsx"), null, true),
+				    Date_Sheet = Source{[Item="Date",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Date_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Year", Int64.Type}, {"Month_Number", Int64.Type}, {"Month", type text}, {"Quarter", type text}, {"Year_Month", type text}, {"Week_Number", Int64.Type}, {"Day", Int64.Type}, {"Day_Name", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

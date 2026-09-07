@@ -1,0 +1,43 @@
+table Salespersons
+	lineageTag: 607d02db-ab8e-467b-ae69-69731879cc12
+
+	column Salesperson_ID
+		dataType: string
+		lineageTag: 6fff1117-7dd4-4783-8ff1-e3a9ea32d486
+		summarizeBy: none
+		sourceColumn: Salesperson_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Salesperson
+		dataType: string
+		lineageTag: 6627e0b9-4a80-463d-aa84-286589d3ca75
+		summarizeBy: none
+		sourceColumn: Salesperson
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region_ID
+		dataType: string
+		lineageTag: dcc363c5-b39b-4156-9cfd-3124f3b68a60
+		summarizeBy: none
+		sourceColumn: Region_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Salespersons = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Tripti Sahu\Desktop\P\Sales Performance Dashboard\Sales_Performance_Dashboard_Dataset.xlsx"), null, true),
+				    Salespersons_Sheet = Source{[Item="Salespersons",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Salespersons_Sheet,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Salesperson_ID", type text}, {"Salesperson", type text}, {"Region_ID", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
