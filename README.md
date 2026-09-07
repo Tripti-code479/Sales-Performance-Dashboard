@@ -1,6 +1,7 @@
 # 📊 Sales Performance Dashboard
 A Power BI dashboard designed to analyze sales performance, profitability, regional performance, product performance, and category-level sales trends for 2024–2025.
 
+**Tool:** Power BI Desktop | **Data:** 12,000 Sales Records | **Period:** 2024–2025
 
 ## 🎯 Business Objective
 
